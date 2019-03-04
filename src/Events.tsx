@@ -1,7 +1,8 @@
 
-interface EventBase {
+interface EventBase<T, P> {
     id: string,
-    type: string,
+    type: T,
+    payload: P,
     public: boolean,
     created_at: string
     repo: {
@@ -25,181 +26,93 @@ interface EventBase {
     }
 }
 
-interface CheckRunEvent extends EventBase {
-    type: "CheckRunEvent"
-}
+interface CheckRunEvent extends EventBase<'CheckRunEvent', {}> { }
 
-interface CheckSuiteEvent extends EventBase {
-    type: "CheckSuiteEvent"
-}
+interface CheckSuiteEvent extends EventBase<'CheckSuiteEvent', {}> { }
 
-interface CommitCommentEvent extends EventBase {
-    type: "CommitCommentEvent"
-}
+interface CommitCommentEvent extends EventBase<'CommitCommentEvent', {}> { }
 
-interface ContentReferenceEvent extends EventBase {
-    type: "ContentReferenceEvent"
-}
+interface ContentReferenceEvent extends EventBase<'ContentReferenceEvent', {}> { }
 
-interface CreateEvent extends EventBase {
-    type: "CreateEvent"
-}
+interface CreateEvent extends EventBase<'CreateEvent', {}> { }
 
-interface DeleteEvent extends EventBase {
-    type: "DeleteEvent"
-}
+interface DeleteEvent extends EventBase<'DeleteEvent', {}> { }
 
-interface DeploymentEvent extends EventBase {
-    type: "DeploymentEvent"
-}
+interface DeploymentEvent extends EventBase<'DeploymentEvent', {}> { }
 
-interface DeploymentStatusEvent extends EventBase {
-    type: "DeploymentStatusEvent"
-}
+interface DeploymentStatusEvent extends EventBase<'DeploymentStatusEvent', {}> { }
 
-interface DownloadEvent extends EventBase {
-    type: "DownloadEvent"
-}
+interface DownloadEvent extends EventBase<'DownloadEvent', {}> { }
 
-interface FollowEvent extends EventBase {
-    type: "FollowEvent"
-}
+interface FollowEvent extends EventBase<'FollowEvent', {}> { }
 
-interface ForkEvent extends EventBase {
-    type: "ForkEvent"
-}
+interface ForkEvent extends EventBase<'ForkEvent', {}> { }
 
-interface ForkApplyEvent extends EventBase {
-    type: "ForkApplyEvent"
-}
+interface ForkApplyEvent extends EventBase<'ForkApplyEvent', {}> { }
 
-interface GitHubAppAuthorizationEvent extends EventBase {
-    type: "GitHubAppAuthorizationEvent"
-}
+interface GitHubAppAuthorizationEvent extends EventBase<'GitHubAppAuthorizationEvent', {}> { }
 
-interface GistEvent extends EventBase {
-    type: "GistEvent"
-}
+interface GistEvent extends EventBase<'GistEvent', {}> { }
 
-interface GollumEvent extends EventBase {
-    type: "GollumEvent"
-}
+interface GollumEvent extends EventBase<'GollumEvent', {}> { }
 
-interface InstallationEvent extends EventBase {
-    type: "InstallationEvent"
-}
+interface InstallationEvent extends EventBase<'InstallationEvent', {}> { }
 
-interface InstallationRepositoriesEvent extends EventBase {
-    type: "InstallationRepositoriesEvent"
-}
+interface InstallationRepositoriesEvent extends EventBase<'InstallationRepositoriesEvent', {}> { }
 
-interface IssueCommentEvent extends EventBase {
-    type: "IssueCommentEvent"
-}
+interface IssueCommentEvent extends EventBase<'IssueCommentEvent', {}> { }
 
-interface IssuesEvent extends EventBase {
-    type: "IssuesEvent"
-}
+interface IssuesEvent extends EventBase<'IssuesEvent', {}> { }
 
-interface LabelEvent extends EventBase {
-    type: "LabelEvent"
-}
+interface LabelEvent extends EventBase<'LabelEvent', {}> { }
 
-interface MarketplacePurchaseEvent extends EventBase {
-    type: "MarketplacePurchaseEvent"
-}
+interface MarketplacePurchaseEvent extends EventBase<'MarketplacePurchaseEvent', {}> { }
 
-interface MemberEvent extends EventBase {
-    type: "MemberEvent"
-}
+interface MemberEvent extends EventBase<'MemberEvent', {}> { }
 
-interface MembershipEvent extends EventBase {
-    type: "MembershipEvent"
-}
+interface MembershipEvent extends EventBase<'MembershipEvent', {}> { }
 
-interface MilestoneEvent extends EventBase {
-    type: "MilestoneEvent"
-}
+interface MilestoneEvent extends EventBase<'MilestoneEvent', {}> { }
 
-interface OrganizationEvent extends EventBase {
-    type: "OrganizationEvent"
-}
+interface OrganizationEvent extends EventBase<'OrganizationEvent', {}> { }
 
-interface OrgBlockEvent extends EventBase {
-    type: "OrgBlockEvent"
-}
+interface OrgBlockEvent extends EventBase<'OrgBlockEvent', {}> { }
 
-interface PageBuildEvent extends EventBase {
-    type: "PageBuildEvent"
-}
+interface PageBuildEvent extends EventBase<'PageBuildEvent', {}> { }
 
-interface ProjectCardEvent extends EventBase {
-    type: "ProjectCardEvent"
-}
+interface ProjectCardEvent extends EventBase<'ProjectCardEvent', {}> { }
 
-interface ProjectColumnEvent extends EventBase {
-    type: "ProjectColumnEvent"
-}
+interface ProjectColumnEvent extends EventBase<'ProjectColumnEvent', {}> { }
 
-interface ProjectEvent extends EventBase {
-    type: "ProjectEvent"
-}
+interface ProjectEvent extends EventBase<'ProjectEvent', {}> { }
 
-interface PublicEvent extends EventBase {
-    type: "PublicEvent"
-}
+interface PublicEvent extends EventBase<'PublicEvent', {}> { }
 
-interface PullRequestEvent extends EventBase {
-    type: "PullRequestEvent"
-}
+interface PullRequestEvent extends EventBase<'PullRequestEvent', {}> { }
 
-interface PullRequestReviewEvent extends EventBase {
-    type: "PullRequestReviewEvent"
-}
+interface PullRequestReviewEvent extends EventBase<'PullRequestReviewEvent', {}> { }
 
-interface PullRequestReviewCommentEvent extends EventBase {
-    type: "PullRequestReviewCommentEvent"
-}
+interface PullRequestReviewCommentEvent extends EventBase<'PullRequestReviewCommentEvent', {}> { }
 
-interface PushEvent extends EventBase {
-    type: "PushEvent"
-}
+interface PushEvent extends EventBase<'PushEvent', {}> { }
 
-interface ReleaseEvent extends EventBase {
-    type: "ReleaseEvent"
-}
+interface ReleaseEvent extends EventBase<'ReleaseEvent', {}> { }
 
-interface RepositoryEvent extends EventBase {
-    type: "RepositoryEvent"
-}
+interface RepositoryEvent extends EventBase<'RepositoryEvent', {}> { }
 
-interface RepositoryImportEvent extends EventBase {
-    type: "RepositoryImportEvent"
-}
+interface RepositoryImportEvent extends EventBase<'RepositoryImportEvent', {}> { }
 
-interface RepositoryVulnerabilityAlertEvent extends EventBase {
-    type: "RepositoryVulnerabilityAlertEvent"
-}
+interface RepositoryVulnerabilityAlertEvent extends EventBase<'RepositoryVulnerabilityAlertEvent', {}> { }
 
-interface SecurityAdvisoryEvent extends EventBase {
-    type: "SecurityAdvisoryEvent"
-}
+interface SecurityAdvisoryEvent extends EventBase<'SecurityAdvisoryEvent', {}> { }
 
-interface StatusEvent extends EventBase {
-    type: "StatusEvent"
-}
+interface StatusEvent extends EventBase<'StatusEvent', {}> { }
 
-interface TeamEvent extends EventBase {
-    type: "TeamEvent"
-}
+interface TeamEvent extends EventBase<'TeamEvent', {}> { }
 
-interface TeamAddEvent extends EventBase {
-    type: "TeamAddEvent"
-}
+interface TeamAddEvent extends EventBase<'TeamAddEvent', {}> { }
 
-interface WatchEvent extends EventBase {
-    type: "WatchEvent"
-}
+interface WatchEvent extends EventBase<'WatchEvent', {}> { }
 
 
 type GithubEvent = CheckRunEvent | CheckSuiteEvent | CommitCommentEvent | ContentReferenceEvent | CreateEvent | DeleteEvent | DeploymentEvent | DeploymentStatusEvent | DownloadEvent | FollowEvent | ForkEvent | ForkApplyEvent | GitHubAppAuthorizationEvent | GistEvent | GollumEvent | InstallationEvent | InstallationRepositoriesEvent | IssueCommentEvent | IssuesEvent | LabelEvent | MarketplacePurchaseEvent | MemberEvent | MembershipEvent | MilestoneEvent | OrganizationEvent | OrgBlockEvent | PageBuildEvent | ProjectCardEvent | ProjectColumnEvent | ProjectEvent | PublicEvent | PullRequestEvent | PullRequestReviewEvent | PullRequestReviewCommentEvent | PushEvent | ReleaseEvent | RepositoryEvent | RepositoryImportEvent | RepositoryVulnerabilityAlertEvent | SecurityAdvisoryEvent | StatusEvent | TeamEvent | TeamAddEvent | WatchEvent
