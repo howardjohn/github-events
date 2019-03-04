@@ -47,7 +47,7 @@ function App(props: Props) {
         direction="column"
         alignItems="center"
         style={{ minHeight: '100vh' }}>
-        <EventStream />
+        <EventStream username={location.pathname.substring(1)}/>
       </Grid>
     </div>
   );

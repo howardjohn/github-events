@@ -16,10 +16,10 @@ import moment from 'moment';
 import { GithubEvent, PullRequest, Issue } from './Events';
 import { ListItemAvatar, Typography, Link } from '@material-ui/core';
 
-async function fetchEvents(f: CallableFunction) {
+async function fetchEvents(user: string, f: CallableFunction) {
     const octokit = new Octokit()
     const args = {
-        username: "howardjohn",
+        username: user,
         per_page: 30,
         page: 1
     }
@@ -69,7 +69,7 @@ const getEventText = (e: GithubEvent) => {
         case "PushEvent":
             const c = e.payload.commits
                 .filter(c => c.distinct)
-                .map((c, i)  => <li key={i}>{comment(c.message)}</li>)
+                .map((c, i) => <li key={i}>{comment(c.message)}</li>)
             return <>{repo(e)} - Pushed {c.length} commits: <ul>{c}</ul></>
         default: return <>{repo(e)} - {e.type}</>
     }
@@ -102,11 +102,11 @@ const EventItem = ({ event }: { event: GithubEvent }) => {
     </ListItem>
 }
 
-export function EventStream() {
+export function EventStream({ username }: { username: string }) {
     const [events, setEvents] = useState<Array<GithubEvent> | null>(null);
 
     useEffect(() => {
-        fetchEvents(setEvents)
+        fetchEvents(username, setEvents)
     }, []);
 
 
