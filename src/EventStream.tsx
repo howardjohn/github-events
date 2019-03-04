@@ -23,8 +23,12 @@ async function fetchEvents(user: string, f: CallableFunction) {
         per_page: 30,
         page: 1
     }
-    const result = await octokit.activity.listEventsForUser(args)
-    f(result.data)
+    try {
+        const result = await octokit.activity.listEventsForUser(args)
+        f(result.data)
+    } catch {
+        f('error')
+    }
 }
 
 const titleCase = (s: string) =>
@@ -103,16 +107,16 @@ const EventItem = ({ event }: { event: GithubEvent }) => {
 }
 
 export function EventStream({ username }: { username: string }) {
-    const [events, setEvents] = useState<Array<GithubEvent> | null>(null);
+    const [events, setEvents] = useState<Array<GithubEvent> | 'error' | 'loading'>('loading');
 
     useEffect(() => {
         fetchEvents(username, setEvents)
     }, []);
 
 
-    if (events == null) {
+    if (events == 'loading') {
         return <div>Loading</div>
-    } else if (!events) {
+    } else if (events == 'error') {
         return <div>Error</div>
     } else {
         return <List style={{ width: '75%' }}>
