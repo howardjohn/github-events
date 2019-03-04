@@ -26,15 +26,28 @@ interface EventBase<T, P> {
     }
 }
 
-interface Comment {
+export interface Comment {
     html_url: string,
     body: string
 }
 
-interface Issue {
+export interface Issue {
     html_url: string,
+    title: string,
     body: string,
     number: number
+}
+
+export interface PullRequest {
+    html_url: string,
+    number: number,
+    title: string,
+    body: string
+}
+
+export interface Commit {
+    message: string,
+    distinct: boolean
 }
 
 
@@ -42,7 +55,7 @@ interface CheckRunEvent extends EventBase<'CheckRunEvent', {}> { }
 
 interface CheckSuiteEvent extends EventBase<'CheckSuiteEvent', {}> { }
 
-interface CommitCommentEvent extends EventBase<'CommitCommentEvent', {comment: Comment}> { }
+interface CommitCommentEvent extends EventBase<'CommitCommentEvent', { comment: Comment }> { }
 
 interface ContentReferenceEvent extends EventBase<'ContentReferenceEvent', {}> { }
 
@@ -66,15 +79,15 @@ interface GitHubAppAuthorizationEvent extends EventBase<'GitHubAppAuthorizationE
 
 interface GistEvent extends EventBase<'GistEvent', {}> { }
 
-interface GollumEvent extends EventBase<'GollumEvent', {}> { }
+interface GollumEvent extends EventBase<'GollumEvent', { pages: Array<{ action: string, html_url: string, page_name: string }> }> { }
 
 interface InstallationEvent extends EventBase<'InstallationEvent', {}> { }
 
 interface InstallationRepositoriesEvent extends EventBase<'InstallationRepositoriesEvent', {}> { }
 
-interface IssueCommentEvent extends EventBase<'IssueCommentEvent', {comment: Comment, issue: Issue}> { }
+interface IssueCommentEvent extends EventBase<'IssueCommentEvent', { comment: Comment, issue: Issue }> { }
 
-interface IssuesEvent extends EventBase<'IssuesEvent', {}> { }
+interface IssuesEvent extends EventBase<'IssuesEvent', {action: string, issue: Issue}> { }
 
 interface LabelEvent extends EventBase<'LabelEvent', {}> { }
 
@@ -104,9 +117,9 @@ interface PullRequestEvent extends EventBase<'PullRequestEvent', {}> { }
 
 interface PullRequestReviewEvent extends EventBase<'PullRequestReviewEvent', {}> { }
 
-interface PullRequestReviewCommentEvent extends EventBase<'PullRequestReviewCommentEvent', {}> { }
+interface PullRequestReviewCommentEvent extends EventBase<'PullRequestReviewCommentEvent', { comment: Comment, pull_request: PullRequest }> { }
 
-interface PushEvent extends EventBase<'PushEvent', {}> { }
+interface PushEvent extends EventBase<'PushEvent', {commits: Array<Commit>}> { }
 
 interface ReleaseEvent extends EventBase<'ReleaseEvent', {}> { }
 
@@ -127,6 +140,5 @@ interface TeamAddEvent extends EventBase<'TeamAddEvent', {}> { }
 interface WatchEvent extends EventBase<'WatchEvent', {}> { }
 
 
-type GithubEvent = CheckRunEvent | CheckSuiteEvent | CommitCommentEvent | ContentReferenceEvent | CreateEvent | DeleteEvent | DeploymentEvent | DeploymentStatusEvent | DownloadEvent | FollowEvent | ForkEvent | ForkApplyEvent | GitHubAppAuthorizationEvent | GistEvent | GollumEvent | InstallationEvent | InstallationRepositoriesEvent | IssueCommentEvent | IssuesEvent | LabelEvent | MarketplacePurchaseEvent | MemberEvent | MembershipEvent | MilestoneEvent | OrganizationEvent | OrgBlockEvent | PageBuildEvent | ProjectCardEvent | ProjectColumnEvent | ProjectEvent | PublicEvent | PullRequestEvent | PullRequestReviewEvent | PullRequestReviewCommentEvent | PushEvent | ReleaseEvent | RepositoryEvent | RepositoryImportEvent | RepositoryVulnerabilityAlertEvent | SecurityAdvisoryEvent | StatusEvent | TeamEvent | TeamAddEvent | WatchEvent
+export type GithubEvent = CheckRunEvent | CheckSuiteEvent | CommitCommentEvent | ContentReferenceEvent | CreateEvent | DeleteEvent | DeploymentEvent | DeploymentStatusEvent | DownloadEvent | FollowEvent | ForkEvent | ForkApplyEvent | GitHubAppAuthorizationEvent | GistEvent | GollumEvent | InstallationEvent | InstallationRepositoriesEvent | IssueCommentEvent | IssuesEvent | LabelEvent | MarketplacePurchaseEvent | MemberEvent | MembershipEvent | MilestoneEvent | OrganizationEvent | OrgBlockEvent | PageBuildEvent | ProjectCardEvent | ProjectColumnEvent | ProjectEvent | PublicEvent | PullRequestEvent | PullRequestReviewEvent | PullRequestReviewCommentEvent | PushEvent | ReleaseEvent | RepositoryEvent | RepositoryImportEvent | RepositoryVulnerabilityAlertEvent | SecurityAdvisoryEvent | StatusEvent | TeamEvent | TeamAddEvent | WatchEvent
 
-export default GithubEvent
