@@ -28,6 +28,8 @@ export interface Props extends WithStyles<typeof styles> { }
 
 function App(props: Props) {
   const { classes } = props;
+  const p = location.pathname.split("/")
+  const user = p[p.length - 1]
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -47,7 +49,7 @@ function App(props: Props) {
         direction="column"
         alignItems="center"
         style={{ minHeight: '100vh' }}>
-        <EventStream username={location.pathname.substring(1)}/>
+        <EventStream username={user}/>
       </Grid>
     </div>
   );
