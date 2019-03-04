@@ -50,8 +50,8 @@ const repo = (e: GithubEvent) => {
     return link(e.repo.name, e.repo.url)
 }
 
-const reference = (i: PullRequest | Issue) => {
-    return <>"{i.title}" (#{link(i.number, i.html_url)})</>
+const reference = (i: PullRequest | Issue, url?: string) => {
+    return <>"{i.title}" (#{link(i.number, url || i.html_url)})</>
 }
 
 
@@ -62,11 +62,11 @@ const getEventText = (e: GithubEvent) => {
         case "CommitCommentEvent":
             return <>{repo(e)} - Commented on commit #: {comment(e.payload.comment.body)}</>
         case "IssueCommentEvent":
-            return <>{repo(e)} - Commented on issue {reference(e.payload.issue)}: {comment(e.payload.comment.body)}</>
+            return <>{repo(e)} - Commented on issue {reference(e.payload.issue, e.payload.comment.html_url)}: {comment(e.payload.comment.body)}</>
         case "IssuesEvent":
             return <>{repo(e)} - {titleCase(e.payload.action)} issue {reference(e.payload.issue)}</>
         case "PullRequestReviewCommentEvent":
-            return <>{repo(e)} - Commented on pull request {reference(e.payload.pull_request)}: {comment(e.payload.comment.body)}</>
+            return <>{repo(e)} - Commented on pull request {reference(e.payload.pull_request, e.payload.comment.html_url)}: {comment(e.payload.comment.body)}</>
         case "GollumEvent":
             const p = e.payload.pages[0]
             return <>{repo(e)} - {titleCase(p.action)} a wiki page "{link(p.page_name, p.html_url)}"</>
