@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/github-events/static/css/main.1748056e.chunk.css"
   },
   {
-    "revision": "b4e1c7721cbdc745ec2f62b1910e2c04",
+    "revision": "4bd7a99456fb6f87bc273ca8dc965577",
     "url": "/github-events/index.html"
   }
 ];
