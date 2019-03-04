@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import ImageIcon from '@material-ui/icons/Image';
-import WorkIcon from '@material-ui/icons/Work';
-import BeachAccessIcon from '@material-ui/icons/BeachAccess';
+import WatchLaterIcon from '@material-ui/icons/WatchLater';
 import Octokit from '@octokit/rest';
 import moment from 'moment';
+import GithubEvent from './Events';
+import { ListItemAvatar } from '@material-ui/core';
 
 async function fetchEvents(f: CallableFunction) {
     const octokit = new Octokit()
@@ -20,35 +19,39 @@ async function fetchEvents(f: CallableFunction) {
         page: 1
     }
     const result = await octokit.activity.listEventsForUser(args)
-    f(result)
+    f(result.data)
 }
 
-interface EventsReponse {
-    data: Array<EventResponse>
+const getEventText = (e: GithubEvent) => {
+    switch (e.type) {
+        case "WatchEvent": return <>{`Started watching ${e.repo.name}`}</>
+        default: return <>{`${e.type} - ${e.repo.name}`}</>
+    }
 }
 
-interface EventResponse {
-    id: string,
-    type: string,
-    repo: {
-        name: string
-    },
-    created_at: string
+const getEventAvatar = (e: GithubEvent) => {
+    switch (e.type) {
+        case "WatchEvent": return <WatchLaterIcon />
+        default: return <ImageIcon />
+    }
 }
 
-const Event = ({ event }: {event: EventResponse}) => {
-    const main = `${event.type} - ${event.repo.name}`
+const EventItem = ({ event }: { event: GithubEvent }) => {
+    const main = getEventText(event)
     const sub = moment(event.created_at).fromNow()
-    return <ListItem>
-        <Avatar>
-            <ImageIcon />
-        </Avatar>
+    const avatar = getEventAvatar(event)
+    return <ListItem alignItems="flex-start">
+        <ListItemAvatar>
+            <Avatar>
+                {avatar}
+            </Avatar>
+        </ListItemAvatar>
         <ListItemText primary={main} secondary={sub} />
     </ListItem>
 }
 
 export function EventStream() {
-    const [events, setEvents] = useState<EventsReponse | null>(null);
+    const [events, setEvents] = useState<Array<GithubEvent> | null>(null);
 
     useEffect(() => {
         fetchEvents(setEvents)
@@ -57,11 +60,11 @@ export function EventStream() {
 
     if (events == null) {
         return <div>Loading</div>
-    } else if (!events.data) {
+    } else if (!events) {
         return <div>Error</div>
     } else {
-        return <List>
-            {events.data.map((e, i) => <Event event={e} key={i} />)}
+        return <List style={{ width: '75%' }}>
+            {events.map((e, i) => <EventItem event={e} key={i} />)}
         </List>
     }
 }
