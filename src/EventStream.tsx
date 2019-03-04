@@ -9,7 +9,7 @@ import WatchLaterIcon from '@material-ui/icons/WatchLater';
 import Octokit from '@octokit/rest';
 import moment from 'moment';
 import GithubEvent from './Events';
-import { ListItemAvatar } from '@material-ui/core';
+import { ListItemAvatar, Typography, Link } from '@material-ui/core';
 
 async function fetchEvents(f: CallableFunction) {
     const octokit = new Octokit()
@@ -22,10 +22,26 @@ async function fetchEvents(f: CallableFunction) {
     f(result.data)
 }
 
+const comment = (body: string) => {
+    return <Typography component="span" style={{ display: 'inline' }} color="textSecondary">
+        {body.substring(0, 200)}{body.length > 200 ? '...' : ''}
+    </Typography>
+}
+
+const link = (text: string | number, url: string) => {
+    return <Link href={url}>{text}</Link>
+}
+
+const repo = (e: GithubEvent) => {
+    return link(e.repo.name, e.repo.url)
+}
+
 const getEventText = (e: GithubEvent) => {
     switch (e.type) {
-        case "WatchEvent": return <>{`Started watching ${e.repo.name}`}</>
-        default: return <>{`${e.type} - ${e.repo.name}`}</>
+        case "WatchEvent": return <>Started watching {repo(e)}</>
+        case "CommitCommentEvent": return <>{repo(e)} - Commented on commit #: {comment(e.payload.comment.body)}</>
+        case "IssueCommentEvent": return <>{repo(e)} - Commented on issue #{link(e.payload.issue.number, e.payload.issue.html_url)}: {comment(e.payload.comment.body)}</>
+        default: return <>{e.type} - {repo(e)}</>
     }
 }
 
@@ -40,7 +56,7 @@ const EventItem = ({ event }: { event: GithubEvent }) => {
     const main = getEventText(event)
     const sub = moment(event.created_at).fromNow()
     const avatar = getEventAvatar(event)
-    return <ListItem alignItems="flex-start">
+    return <ListItem alignItems="flex-start" onClick={() => console.log(event)}>
         <ListItemAvatar>
             <Avatar>
                 {avatar}

@@ -26,11 +26,23 @@ interface EventBase<T, P> {
     }
 }
 
+interface Comment {
+    html_url: string,
+    body: string
+}
+
+interface Issue {
+    html_url: string,
+    body: string,
+    number: number
+}
+
+
 interface CheckRunEvent extends EventBase<'CheckRunEvent', {}> { }
 
 interface CheckSuiteEvent extends EventBase<'CheckSuiteEvent', {}> { }
 
-interface CommitCommentEvent extends EventBase<'CommitCommentEvent', {}> { }
+interface CommitCommentEvent extends EventBase<'CommitCommentEvent', {comment: Comment}> { }
 
 interface ContentReferenceEvent extends EventBase<'ContentReferenceEvent', {}> { }
 
@@ -60,7 +72,7 @@ interface InstallationEvent extends EventBase<'InstallationEvent', {}> { }
 
 interface InstallationRepositoriesEvent extends EventBase<'InstallationRepositoriesEvent', {}> { }
 
-interface IssueCommentEvent extends EventBase<'IssueCommentEvent', {}> { }
+interface IssueCommentEvent extends EventBase<'IssueCommentEvent', {comment: Comment, issue: Issue}> { }
 
 interface IssuesEvent extends EventBase<'IssuesEvent', {}> { }
 
