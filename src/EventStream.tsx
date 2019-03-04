@@ -14,7 +14,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import Octokit from '@octokit/rest';
 import moment from 'moment';
 import { GithubEvent, PullRequest, Issue } from './Events';
-import { ListItemAvatar, Typography, Link } from '@material-ui/core';
+import { ListItemAvatar, Typography, Link, Tooltip } from '@material-ui/core';
 
 async function fetchEvents(user: string, f: CallableFunction) {
     const octokit = new Octokit()
@@ -80,12 +80,15 @@ const getEventText = (e: GithubEvent) => {
 }
 
 const getEventAvatar = (e: GithubEvent) => {
+    const green = { color: "#34ce57" }
+    const red = { color: "#cb2431" }
+    const purple = { color: "#6f42c1" }
     switch (e.type) {
         case "WatchEvent": return <WatchLaterIcon />
         case "CommitCommentEvent": return <HistoryIcon />
         case "IssueCommentEvent":
-        case "IssuesEvent": return <ErrorIcon />
-        case "PullRequestReviewCommentEvent": return <DeviceHubIcon />
+        case "IssuesEvent": return <ErrorIcon style={green} />
+        case "PullRequestReviewCommentEvent": return <DeviceHubIcon style={purple} />
         case "GollumEvent": return <NotesIcon />
         case "PushEvent": return <CloudUploadIcon />
         default: return <ImageIcon />
@@ -94,14 +97,11 @@ const getEventAvatar = (e: GithubEvent) => {
 
 const EventItem = ({ event }: { event: GithubEvent }) => {
     const main = getEventText(event)
-    const sub = moment(event.created_at).fromNow()
+    const time = moment(event.created_at)
+    const sub = <span title={time.format("dddd, MMMM Do, h:mm a")}>{time.fromNow()}</span>
     const avatar = getEventAvatar(event)
     return <ListItem alignItems="flex-start" onClick={() => console.log(event)}>
-        <ListItemAvatar>
-            <Avatar>
-                {avatar}
-            </Avatar>
-        </ListItemAvatar>
+        {avatar}
         <ListItemText primary={main} secondary={sub} />
     </ListItem>
 }
